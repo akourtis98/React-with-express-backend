@@ -6,7 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        email: '',
+        name: '',
         pword: '',
         users: []
     }
@@ -18,19 +18,19 @@ class App extends Component {
       .then(users => this.setState({ users }));
   }
 
-signup = e => {
-  // save to db
-}
+  signup = e => {
+    // save to db
+  }
 
-handleChangeEmail = e => {
-    this.setState({email: e.target.value});
-    console.log(this.state.email)
-}
+  handleChangeName = e => {
+      this.setState({name: e.target.value});
+      console.log(this.state.name)
+  }
 
-handleChangePword = e => {
-    this.setState({pword: e.target.value});
-    console.log(this.state.pword)
-}
+  handleChangePword = e => {
+      this.setState({pword: e.target.value});
+      console.log(this.state.pword)
+  }
   render() {
     return (
       <div className="App">
@@ -39,17 +39,17 @@ handleChangePword = e => {
             <li key={user.id}> {user.username}</li>
           )}
         </ul>
-        <form>
+        <form method="POST" action="/register">
                     <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">Email address</label>
+                        <label htmlFor="exampleInputName">Name</label>
                         <input 
-                        type="email" 
+                        type="name" 
                         className="form-control" 
-                        onChange={this.handleChangeEmail} 
-                        id="exampleInputEmail1" 
-                        aria-describedby="emailHelp" 
-                        placeholder="Enter email"/>
-                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                        onChange={this.handleChangeName} 
+                        id="exampleInputName" 
+                        aria-describedby="nameHelp" 
+                        placeholder="Enter name"/>
+                        <small id="nameHelp" className="form-text text-muted">We'll never share your name with anyone else.</small>
                     </div>
                     <div className="form-group">
                         <label htmlFor="exampleInputPassword1">Password</label>
