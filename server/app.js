@@ -1,6 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
+var mongoose = require('mongoose');
 var path = require('path');
+var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -20,6 +22,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// DB config
+const db = require('./config/keys').mongoURI;
+
+// Connect to mongodb
+mongoose
+    .connect(db)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

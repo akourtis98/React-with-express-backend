@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import request from 'request';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
         name: '',
-        pword: '',
+        password: '',
         users: []
     }
 }
@@ -19,7 +19,24 @@ class App extends Component {
   }
 
   signup = e => {
-    // save to db
+
+    fetch('http://localhost:3001/register', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name:'sdfsadgagafddf', 
+        password:'dfgdfggsdfgfdgdgsg'
+      })
+    })
+    .then((res) => res.json())
+    .then(data =>  console.log(data))
+    .catch(err=>console.log(err))
+
+    console.log("name: " + this.state.name + "\n" + "password: " + this.state.password);
   }
 
   handleChangeName = e => {
@@ -27,10 +44,11 @@ class App extends Component {
       console.log(this.state.name)
   }
 
-  handleChangePword = e => {
-      this.setState({pword: e.target.value});
-      console.log(this.state.pword)
+  handleChangePassword = e => {
+      this.setState({password: e.target.value});
+      console.log(this.state.password)
   }
+
   render() {
     return (
       <div className="App">
@@ -39,11 +57,12 @@ class App extends Component {
             <li key={user.id}> {user.username}</li>
           )}
         </ul>
-        <form method="POST" action="/register">
+        <form>
                     <div className="form-group">
                         <label htmlFor="exampleInputName">Name</label>
                         <input 
                         type="name" 
+                        name="name"
                         className="form-control" 
                         onChange={this.handleChangeName} 
                         id="exampleInputName" 
@@ -54,13 +73,14 @@ class App extends Component {
                     <div className="form-group">
                         <label htmlFor="exampleInputPassword1">Password</label>
                         <input 
+                        name="password"
                         type="password" 
-                        onChange={this.handleChangePword} 
+                        onChange={this.handleChangePassword} 
                         className="form-control" 
                         id="exampleInputPassword1" 
                         placeholder="Password"/>
                     </div>
-                    <button type="button" onClick={this.signup} className="btn btn-info">Sign up</button>
+                    <button type="button" onClick={e => {this.signup(e)}} className="btn btn-info">Sign up</button>
                     </form>
       </div>
     );

@@ -1,34 +1,32 @@
-const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+var express = require('express');
+var router = express.Router();
+var mongoose = require("mongoose");
+var bcrypt = require('bcryptjs');
+var User = require('../models/User');
+
+// get reference to database
+var db = mongoose.connection;
+
+const connToDB = () => {
+    
+}
 
 // @Route   POST /register
 // @desc    Register user
 // @access  Public
-router.post('/', (req, res) => {
-    User.findOne({ name: req.body.name })
-        .then(user => {
-            if(user) {
-                return res.status(400).json({name: 'Name already exists'});
-            }else {
+router.post('/', (req, res, next) => {
+    console.log("here I am");
+    console.log(req.body);
 
-                const newUser = new User({
-                    name: req.body.name,
-                    password: req.body.password
-                });
+    const newUser = new User({
+        name: req.body.name,
+        password: req.body.password
+    });
+    
+    newUser.save()
+        .then(user => res.send("item saved to db"))
+        .catch(err => res.send(err));
 
-                bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(newUser.password, salt, (err, hash) => {
-                        if(err) throw err;
-                        newUser.password = hash;
-                        newUser.save()
-                            .then(user => res.json(user))
-                            .catch(err => console.log(err));
-                    })
-                })
-            }
-        })
 });
 
 module.exports = router;
