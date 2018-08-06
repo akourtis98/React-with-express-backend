@@ -7,6 +7,7 @@ class CreateArticle extends Component {
             title: '',
             author: '',
             body: '',
+            message: ''
         }
     }
 
@@ -28,8 +29,10 @@ class CreateArticle extends Component {
             body: this.state.body
             })
         })
-        .then((res) => res.json())
-        .then(data =>  console.log(data))
+        .then(res => {
+            this.setState({ message: "Success! " + "'" + this.state.title + "'" + " has been submitted."});
+            return res.json();
+        })
         .catch(err=>console.log(err))
 
         console.log("title: " + this.state.title + "\n" + "author: " + this.state.author + "\n" + "body: " + this.state.body);
@@ -87,6 +90,7 @@ class CreateArticle extends Component {
                 </div>
                 <button type="button" onClick={this.createArticle} className="btn btn-info">Submit</button>
         </form>
+        message: {this.state.message}
     </div>
         );
     }

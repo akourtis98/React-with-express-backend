@@ -4,24 +4,21 @@ class Homepage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            articles: []
+            articles: [],
         }
     }
 
     componentWillMount(){
         fetch("http://localhost:3001/fetch/articles")
             .then(res => res.json())
-            .then(articles => this.setState({ articles }));
+            .then(articles => this.setState({ articles }))    
         }
 
     render(){
-        console.log("should be here: " + this.state.articles);
-
         let articles = this.state.articles.map(article => 
             <li key={article.id}> {article.title}</li>
             );
             
-
         return(
             <div>
                 <h3>Homepage</h3>
