@@ -4,17 +4,10 @@ var mongoose = require("mongoose");
 var bcrypt = require('bcryptjs');
 var User = require('../models/User');
 
-// get reference to database
-var db = mongoose.connection;
-
-const connToDB = () => {
-    
-}
-
-// @Route   POST /register
-// @desc    Register user
+// @Route   POST /create/user
+// @desc    Create user
 // @access  Public
-router.post('/', (req, res, next) => {
+router.post('/user', (req, res, next) => {
     console.log(req.body);
 
     const newUser = new User({

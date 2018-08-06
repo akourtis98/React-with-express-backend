@@ -8,7 +8,8 @@ class Header extends Component{
                 <nav>
                     <ul>
                         <li><Link to='/'>Homepage</Link></li>
-                        <li><Link to='/signup'>Signup</Link></li>
+                        <li><Link to='/create/user'>Create User</Link></li>
+                        <li><Link to='/create/article'>Create Article</Link></li>
                         <li><Link to='/login'>Login</Link></li>
                     </ul>
                 </nav>
