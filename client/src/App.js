@@ -13,23 +13,42 @@ class App extends Component {
 }
 
   componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }));
+    // fetch('/users')
+    //   .then(res => res.json())
+    //   .then(users => this.setState({ users }));
   }
 
-  signup = e => {
-
-    fetch('http://localhost:3001/register', {
+  login = () => {
+    fetch('http://localhost:3001/login', {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name:'sdfsadgagafddf', 
-        password:'dfgdfggsdfgfdgdgsg'
+        name: this.state.name,
+        password: this.state.password
+      })
+    })
+      .then((res) => res.json())
+      .then(data =>  console.log(data))
+      .catch(err=>console.log(err))
+
+      console.log("name: " + this.state.name + "\n" + "password: " + this.state.password);
+    };
+
+  signup = e => {
+    fetch('http://localhost:3001/register', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        password: this.state.password
       })
     })
     .then((res) => res.json())
@@ -52,37 +71,41 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <ul>
-          {this.state.users.map(user => 
-            <li key={user.id}> {user.username}</li>
-          )}
-        </ul>
-        <form>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputName">Name</label>
-                        <input 
-                        type="name" 
-                        name="name"
-                        className="form-control" 
-                        onChange={this.handleChangeName} 
-                        id="exampleInputName" 
-                        aria-describedby="nameHelp" 
-                        placeholder="Enter name"/>
-                        <small id="nameHelp" className="form-text text-muted">We'll never share your name with anyone else.</small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">Password</label>
-                        <input 
-                        name="password"
-                        type="password" 
-                        onChange={this.handleChangePassword} 
-                        className="form-control" 
-                        id="exampleInputPassword1" 
-                        placeholder="Password"/>
-                    </div>
-                    <button type="button" onClick={e => {this.signup(e)}} className="btn btn-info">Sign up</button>
-                    </form>
+      <ul>
+        {this.state.users.map(user => 
+        <li key={user.id}> {user.username}</li>
+        )}
+      </ul>
+      <form>
+      <div className="form-group">
+        <label htmlFor="exampleInputName">Name </label>
+          <input 
+            type="name" 
+            name="name"
+            className="form-control" 
+            onChange={this.handleChangeName} 
+            id="exampleInputName" 
+            aria-describedby="nameHelp" 
+            placeholder="Enter name"/>
+          <small id="nameHelp" className="form-text text-muted">We'll never share your name with anyone else.</small>
       </div>
+      <div className="form-group">
+      <label htmlFor="exampleInputPassword1">Password </label>
+      <input 
+              name="password"
+              type="password" 
+              onChange={this.handleChangePassword} 
+              className="form-control" 
+              id="exampleInputPassword1" 
+              placeholder="Password"
+              aria-label="Name"
+              aria-describedby="emailHelp"/>
+      <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <button type="button" onClick={this.signup} className="btn btn-info">Sign up</button>
+      <button type="button" onClick={this.login} className="btn btn-info">Log in</button>
+    </form>
+</div>
     );
   }
 }

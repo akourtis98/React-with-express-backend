@@ -15,7 +15,6 @@ const connToDB = () => {
 // @desc    Register user
 // @access  Public
 router.post('/', (req, res, next) => {
-    console.log("here I am");
     console.log(req.body);
 
     const newUser = new User({
@@ -26,7 +25,6 @@ router.post('/', (req, res, next) => {
     newUser.save()
         .then(user => res.send("item saved to db"))
         .catch(err => res.send(err));
-
 });
 
 module.exports = router;
