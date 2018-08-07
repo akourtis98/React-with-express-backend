@@ -16,7 +16,7 @@ var testRouter = require('./routes/testRouter');
 var createUser = require('./routes/createUser');
 var createArticle = require('./routes/createArticle');
 var loginRouter = require('./routes/loginUser');
-
+var getArticle = require('./routes/getArticle');
 var app = express();
 
 // view engine setup
@@ -48,6 +48,7 @@ app.use('/', indexRouter);
 app.use('/fetch/articles', getArticlesRouter);
 app.use('/test', testRouter);
 app.use('/create/', createUser);
+app.use('/article', getArticle);
 app.use('/create/', createArticle);
 app.use('/login', loginRouter);
 
