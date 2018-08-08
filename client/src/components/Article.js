@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 class Article extends Component{
     constructor(props){
@@ -20,9 +21,23 @@ class Article extends Component{
     render(){
         return(
             <div>
+                <Breadcrumb tag="nav">
+                    <BreadcrumbItem tag="a" href="/">Home</BreadcrumbItem>
+                    <BreadcrumbItem tag="a" href="/articles">See all articles</BreadcrumbItem>
+                    <BreadcrumbItem active tag="span">{this.state.article.title}</BreadcrumbItem>
+                </Breadcrumb>
                 <h3>Article:</h3>
                 <hr/>
-                {this.state.article.body}
+                <h2>
+                    {this.state.article.title}
+                </h2>
+                <p>
+                    {this.state.article.body}
+                </p>
+                <br/>
+                <p>
+                    by: {this.state.article.author}
+                </p>
             </div>
         )
     }
