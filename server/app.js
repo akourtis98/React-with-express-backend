@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
-const cors = require('cors');
+var cors = require('cors');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -22,6 +22,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -44,9 +45,16 @@ app.use(cors({
   credentials: true
 }));
 
+// passport middleware
+app.use(passport.initialize());
+
+// passport config
+require('./config/passport')(passport);
+
+// use routes
 app.use('/', indexRouter);
 app.use('/fetch/articles', getArticlesRouter);
-app.use('/test', testRouter);
+app.use('/current', testRouter);
 app.use('/create/', createUser);
 app.use('/article', getArticle);
 app.use('/create/', createArticle);

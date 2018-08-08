@@ -10,6 +10,17 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    avatar: {
+        type: String,
+    },
+    date: {
+        type: Date,
+        defalt: Date.now
     }
 })
 

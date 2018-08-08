@@ -31,8 +31,8 @@ class Articles extends Component{
         return(
             <div>
                 <Breadcrumb tag="nav">
-                    <BreadcrumbItem tag="a" href="/">Home</BreadcrumbItem>
-                    <BreadcrumbItem tag="a" href="/articles">See all articles</BreadcrumbItem>
+                    <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to='/articles'>See all articles</Link></BreadcrumbItem>
                 </Breadcrumb>
                 <h3>Articles:</h3>
                 <hr/>

@@ -4,8 +4,11 @@ class CreateUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: '',
             name: '',
             password: '',
+            avatar: '',
+            message: ''
         }
     }
 
@@ -19,14 +22,18 @@ class CreateUser extends Component {
         },
         body: JSON.stringify({
             name: this.state.name,
-            password: this.state.password
+            password: this.state.password,
+            email: this.state.email,
+            })
         })
+        .then((res) => {
+            this.setState({ message: "Success! " + "'" + this.state.name + "'" + " has been submitted."});
+            console.log(res);
+            return res.json();
         })
-        .then((res) => res.json())
-        .then(data =>  console.log(data))
         .catch(err=>console.log(err))
 
-        console.log("name: " + this.state.name + "\n" + "password: " + this.state.password);
+        console.log("email: " + this.state.email + "\n" + "name: " + this.state.name + "\n" + "password: " + this.state.password);
     }
 
     handleChangeName = e => {
@@ -39,11 +46,28 @@ class CreateUser extends Component {
         console.log(this.state.password)
     }
 
+    handleChangeEmail = e => {
+        this.setState({email: e.target.value});
+        console.log(this.state.email)
+    }
+
 
     render() {
         return (
             <div className="App">
             <form>
+            <div className="form-group">
+                    <label htmlFor="exampleInputEmail">Email </label>
+                        <input 
+                        type="email" 
+                        name="email"
+                        className="form-control" 
+                        onChange={this.handleChangeEmail} 
+                        id="exampleInputEmail" 
+                        aria-describedby="emailHelp" 
+                        placeholder="Enter email"/>
+                    <small id="emailHelp" className="form-text text-muted">We'll never share your name with anyone else.</small>
+                </div>
                 <div className="form-group">
                     <label htmlFor="exampleInputName">Name </label>
                         <input 
@@ -70,6 +94,7 @@ class CreateUser extends Component {
                     <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
                 <button type="button" onClick={this.createUser} className="btn btn-info">Sign up</button>
+                message: {this.state.message}
         </form>
     </div>
         );
