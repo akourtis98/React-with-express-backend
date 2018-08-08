@@ -6,10 +6,18 @@ var User = require('../models/User');
 var gravatar = require('gravatar');
 var bcrypt = require('bcryptjs');
 
+// load input validation
+var validateRegisterInput = require('../../validation/register');
+
 // @Route   POST /create/user
 // @desc    Create user
 // @access  Public
 router.post('/user', (req, res, next) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+
+    // check validation
+    if(!isValid) return res.status(400).json(errors);
+
     User.findOne({ email: req.body.email })
         .then(user => {
             if(user){
