@@ -6,18 +6,28 @@ var mongoose = require("mongoose");
 var jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 
+// load input validation
+var validateLoginInput = require('../../validation/login');
+
 // @Route   POST /login
 // @desc    Login user
 // @access  Public
 router.post('/', (req, res, next) => {
+    const { errors, isValid } = validateLoginInput(req.body);
+
+    // check validation
+    if(!isValid) return res.status(400).json(errors);
+
     const email = req.body.email;
     const password = req.body.password;
 
     // find user by email   
     User.findOne({ email })
         .then(user => {
-            if(!user) 
-                return res.status(404).json({ email: 'user not found'})
+            if(!user) {
+                errors.email = 'User not found';
+                return res.status(404).json({ errors })
+            }
             else {
                 bcrypt.compare(password, user.password)
                     .then(isMatched => {
@@ -40,8 +50,11 @@ router.post('/', (req, res, next) => {
                             );
 
                         }
-                        else return res.status(400)
-                            .json({ password: 'Password is incorrect' });
+                        else {
+                            errors.password = 'Password incorrect';
+                            return res.status(400)
+                            .json({ errors });
+                        }
                     })
             }
         })

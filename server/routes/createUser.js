@@ -33,6 +33,7 @@ router.post('/user', (req, res, next) => {
                     name: req.body.name,
                     email: req.body.email,
                     password: req.body.password,
+                    password2: req.body.password2,
                     avatar
                 });
 

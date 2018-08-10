@@ -7,6 +7,7 @@ class CreateUser extends Component {
             email: '',
             name: '',
             password: '',
+            password2: '',
             avatar: '',
             message: ''
         }
@@ -23,6 +24,7 @@ class CreateUser extends Component {
         body: JSON.stringify({
             name: this.state.name,
             password: this.state.password,
+            password2: this.state.password2,
             email: this.state.email,
             })
         })
@@ -44,6 +46,11 @@ class CreateUser extends Component {
     handleChangePassword = e => {
         this.setState({password: e.target.value});
         console.log(this.state.password)
+    }
+
+    handleChangePassword2 = e => {
+        this.setState({password2: e.target.value});
+        console.log(this.state.password2)
     }
 
     handleChangeEmail = e => {
@@ -89,9 +96,20 @@ class CreateUser extends Component {
                             className="form-control" 
                             id="exampleInputPassword1" 
                             placeholder="Password"
-                            aria-label="Name"
-                            aria-describedby="emailHelp"/>
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                            aria-describedby="passwordHelp"/>
+                    <small id="passwordHelp" className="form-text text-muted">Between 6 to 30 char.</small>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword2">Password confirm </label>
+                    <input 
+                            name="password2"
+                            type="password" 
+                            onChange={this.handleChangePassword2} 
+                            className="form-control" 
+                            id="exampleInputPassword2" 
+                            placeholder="Confirm password"
+                            aria-describedby="password2Help"/>
+                    <small id="password2Help" className="form-text text-muted">They have to match.</small>
                 </div>
                 <button type="button" onClick={this.createUser} className="btn btn-info">Sign up</button>
                 message: {this.state.message}
