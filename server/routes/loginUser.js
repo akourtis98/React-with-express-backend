@@ -26,7 +26,7 @@ router.post('/', (req, res, next) => {
         .then(user => {
             if(!user) {
                 errors.email = 'User not found';
-                return res.status(404).json({ errors })
+                return res.status(404).json( errors )
             }
             else {
                 bcrypt.compare(password, user.password)
@@ -48,12 +48,14 @@ router.post('/', (req, res, next) => {
                                     token: token
                                 })
                             );
-
+                            return res.status(200).json({
+                                msg: 'Success. ' +  user.name + ' has been signed in.' 
+                            });
                         }
                         else {
                             errors.password = 'Password incorrect';
                             return res.status(400)
-                            .json({ errors });
+                            .json( errors );
                         }
                     })
             }

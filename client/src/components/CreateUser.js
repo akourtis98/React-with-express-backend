@@ -9,7 +9,8 @@ class CreateUser extends Component {
             password: '',
             password2: '',
             avatar: '',
-            message: ''
+            message: '',
+            errors: {}
         }
     }
 
@@ -28,14 +29,14 @@ class CreateUser extends Component {
             email: this.state.email,
             })
         })
-        .then((res) => {
-            this.setState({ message: "Success! " + "'" + this.state.name + "'" + " has been submitted."});
-            console.log(res);
-            return res.json();
+        .then((res) => res.json())
+        .then(data =>  {
+            this.setState({ 
+                errors: data,
+                message: data.msg
+            });
         })
         .catch(err=>console.log(err))
-
-        console.log("email: " + this.state.email + "\n" + "name: " + this.state.name + "\n" + "password: " + this.state.password);
     }
 
     handleChangeName = e => {
@@ -73,7 +74,7 @@ class CreateUser extends Component {
                         id="exampleInputEmail" 
                         aria-describedby="emailHelp" 
                         placeholder="Enter email"/>
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your name with anyone else.</small>
+                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.email}</small>
                 </div>
                 <div className="form-group">
                     <label htmlFor="exampleInputName">Name </label>
@@ -85,7 +86,7 @@ class CreateUser extends Component {
                         id="exampleInputName" 
                         aria-describedby="nameHelp" 
                         placeholder="Enter name"/>
-                    <small id="nameHelp" className="form-text text-muted">We'll never share your name with anyone else.</small>
+                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.name}</small>
                 </div>
                 <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Password </label>
@@ -97,7 +98,7 @@ class CreateUser extends Component {
                             id="exampleInputPassword1" 
                             placeholder="Password"
                             aria-describedby="passwordHelp"/>
-                    <small id="passwordHelp" className="form-text text-muted">Between 6 to 30 char.</small>
+                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.password}</small>
                 </div>
                 <div className="form-group">
                     <label htmlFor="exampleInputPassword2">Password confirm </label>
@@ -109,10 +110,10 @@ class CreateUser extends Component {
                             id="exampleInputPassword2" 
                             placeholder="Confirm password"
                             aria-describedby="password2Help"/>
-                    <small id="password2Help" className="form-text text-muted">They have to match.</small>
+                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.password2}</small>
                 </div>
                 <button type="button" onClick={this.createUser} className="btn btn-info">Sign up</button>
-                message: {this.state.message}
+                <small id="inputSuccessHelp" className="form-text text-muted">{ this.state.message }</small>
         </form>
     </div>
         );

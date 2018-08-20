@@ -46,6 +46,9 @@ router.post('/user', (req, res, next) => {
                                 .catch(err => console.log(err))
                         })
                 })
+                return res.status(200).json({
+                    msg: 'Success. ' +  req.body.name + ' has been registered.' 
+                });
             }
         })
 });
