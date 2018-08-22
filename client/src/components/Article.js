@@ -20,7 +20,7 @@ class Article extends Component{
 
     render(){
         return(
-            <div>
+            <div className="Articles-page-container">
                 <Breadcrumb tag="nav">
                     <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
                     <BreadcrumbItem><Link to='/articles'>See all articles</Link></BreadcrumbItem>

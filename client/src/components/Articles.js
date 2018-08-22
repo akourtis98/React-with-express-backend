@@ -24,19 +24,21 @@ class Articles extends Component{
         let articles = this.state.articles.map(article =>
             {
                 let title = '/article/' + article.title;
-                return <li onClick={() => this.handleClick(article._id)} key={article._id}><Link to={title}>{article.title}</Link></li>
+                return <li className="list-group-item" onClick={() => this.handleClick(article._id)} key={article._id}><Link to={title}>{article.title}</Link></li>
             }
         );
 
         return(
-            <div>
+            <div className="Articles-page-container">
                 <Breadcrumb tag="nav">
                     <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
                     <BreadcrumbItem><Link to='/articles'>See all articles</Link></BreadcrumbItem>
                 </Breadcrumb>
-                <h3>Articles:</h3>
-                <hr/>
-                { articles }
+                <div className="list-group">
+                    <h3>Articles:</h3>
+                    <hr/>
+                    { articles }
+                </div>
             </div>
         )
     }
