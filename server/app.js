@@ -17,6 +17,8 @@ var createUser = require('./routes/createUser');
 var createArticle = require('./routes/createArticle');
 var loginRouter = require('./routes/loginUser');
 var getArticle = require('./routes/getArticle');
+var profile = require('./routes/profile');
+var postsRouter = require('./routes/api/posts');
 var app = express();
 
 // view engine setup
@@ -58,8 +60,9 @@ app.use('/current', testRouter);
 app.use('/create/', createUser);
 app.use('/article', getArticle);
 app.use('/create/', createArticle);
+app.use('/profile', profile);
 app.use('/login', loginRouter);
-
+app.use('/api/posts', postsRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

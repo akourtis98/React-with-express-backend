@@ -42,11 +42,13 @@ router.post('/', (req, res, next) => {
                             jwt.sign( // sign token
                                 payload, 
                                 keys.secretOrKey, 
-                                { expiresIn: 3600 }, (err, token) => 
-                                res.json({
-                                    success: true,
-                                    token: token
-                                })
+                                { expiresIn: 3600 }, (err, token) => {
+                                    console.log('token: ' + token);
+                                    res.json({
+                                        success: true,
+                                        token: token
+                                    })
+                                }
                             );
                             return res.status(200).json({
                                 msg: 'Success. ' +  user.name + ' has been signed in.' 
