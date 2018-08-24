@@ -15,7 +15,7 @@ var validateLoginInput = require('../../../validation/login');
 // @Route   POST /create/user
 // @desc    Create user
 // @access  Public
-router.post('/signup', (req, res, next) => {
+router.post('/signup', (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
 
     // check validation
@@ -59,7 +59,7 @@ router.post('/signup', (req, res, next) => {
 // @Route   POST /login
 // @desc    Login user
 // @access  Public
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
 
     // check validation
@@ -68,7 +68,7 @@ router.post('/login', (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    // find user by email   
+    // find user by emai
     User.findOne({ email })
         .then(user => {
             if(!user) {
@@ -97,9 +97,6 @@ router.post('/login', (req, res, next) => {
                                     })
                                 }
                             );
-                            return res.status(200).json({
-                                msg: 'Success. ' +  user.name + ' has been signed in.' 
-                            });
                         }
                         else {
                             errors.password = 'Password incorrect';

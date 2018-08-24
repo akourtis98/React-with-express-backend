@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Homepage extends Component{
     constructor(props){
         super(props);
     }
 
+    componentDidMount() {
+        if(this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
+    
     render(){
         return(
             <div>
@@ -35,4 +43,12 @@ class Homepage extends Component{
     }
 }
 
-export default Homepage;
+Homepage.PropTypes = {
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(Homepage);

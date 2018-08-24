@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { registerUser } from '../actions/authActions';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 class CreateUser extends Component {
     constructor(props) {
@@ -20,30 +22,21 @@ class CreateUser extends Component {
         }
     }
 
+    componentDidMount() {
+        if(this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.errors) {
+            this.setState({ errors: nextProps.errors });
+        }
+    }
+
     createUser = () => {
-        this.props.registerUser(this.state.user);
-        // fetch('http://localhost:3001/routes/api/user/signup', {
-        // method: 'POST',
-        // mode: 'cors',
-        // headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        // },
-        // body: JSON.stringify({
-        //     name: this.state.user.name,
-        //     password: this.state.user.password,
-        //     password2: this.state.user.password2,
-        //     email: this.state.user.email,
-        //     })
-        // })
-        // .then((res) => res.json())
-        // .then(data =>  {
-        //     this.setState({ 
-        //         errors: data,
-        //         message: data.msg
-        //     });
-        // })
-        // .catch(err=>console.log(err))
+        const newUser = this.state.user;
+        this.props.registerUser(newUser, this.props.history);
     }
 
     handleChangeName = e => {
@@ -85,11 +78,9 @@ class CreateUser extends Component {
 
     render() {
         const { errors } = this.state;
-        const { user } = this.props.auth;
 
         return (      
             <div className="App">
-            {user ? user.name : null}
             <form>
             {/* // <!-- Register --> */}
             <div className="register">
@@ -164,11 +155,13 @@ class CreateUser extends Component {
 
 CreateUser.PropTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.auth,
+    errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })( CreateUser);
+export default connect(mapStateToProps, { registerUser })( withRouter(CreateUser));

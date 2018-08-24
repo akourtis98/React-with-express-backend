@@ -1,46 +1,58 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../actions/authActions';
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
+            user: {
+                email: '',
+                password: ''
+            },
             errors: {},
             message: ''
         }
     }
     
+    componentDidMount() {
+        if(this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+
+        if(nextProps.errors) {
+            this.setState({ errors: nextProps.errors });
+        }
+    }
+
+
     login = () => {
-        fetch('http://localhost:3001/routes/api/user/login', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
-                })
-        })
-        .then((res) => res.json())
-        .then(data =>  {
-            this.setState({ 
-                errors: data,
-                message: data.msg
-            });
-        })
-        .catch(err =>  {console.log(err)})
+        const user = this.state.user;
+        this.props.loginUser(user);
     };
 
     handleChangeEmail = e => {
-        this.setState({email: e.target.value});
+        this.setState({
+            user: {
+                ...this.state.user,
+                email: e.target.value}
+        });
     }
 
     handleChangePassword = e => {
-        this.setState({password: e.target.value});
+        this.setState({
+            user: {
+                ...this.state.user,
+                password: e.target.value}
+        });
     }
 
 
@@ -96,4 +108,15 @@ class Login extends Component {
     }
 }
 
-export default Login;
+Login.PropTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+export default connect(mapStateToProps , { loginUser })(Login);
