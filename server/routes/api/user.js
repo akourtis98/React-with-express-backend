@@ -1,18 +1,65 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/User');
-var bcrypt = require('bcryptjs');
 var mongoose = require("mongoose");
+var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
+var User = require('../../models/User');
+var gravatar = require('gravatar');
+var bcrypt = require('bcryptjs');
+const keys = require('../../config/keys');
 
-// load input validation
-var validateLoginInput = require('../../validation/login');
+// load validation
+var validateRegisterInput = require('../../../validation/register');
+var validateLoginInput = require('../../../validation/login');
+
+// @Route   POST /create/user
+// @desc    Create user
+// @access  Public
+router.post('/signup', (req, res, next) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+
+    // check validation
+    if(!isValid) return res.status(400).json(errors);
+
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if(user){
+                return res.status(400).json({ email: 'email already exists'});
+            }else{
+                const avatar = gravatar.url(req.body.email, {
+                    s: '200', // size
+                    r: 'pg', // rating
+                    d: 'mm' // default
+                })
+
+                const newUser = new User({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: req.body.password,
+                    password2: req.body.password2,
+                    avatar
+                });
+
+                bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if(err) throw err;
+                            newUser.password = hash;
+                            newUser.save()
+                                .then(user => res.json(user))
+                                .catch(err => console.log(err))
+                        })
+                })
+                return res.status(200).json({
+                    msg: 'Success. ' +  req.body.name + ' has been registered.' 
+                });
+            }
+        })
+});
 
 // @Route   POST /login
 // @desc    Login user
 // @access  Public
-router.post('/', (req, res, next) => {
+router.post('/login', (req, res, next) => {
     const { errors, isValid } = validateLoginInput(req.body);
 
     // check validation
@@ -44,7 +91,7 @@ router.post('/', (req, res, next) => {
                                 keys.secretOrKey, 
                                 { expiresIn: 3600 }, (err, token) => {
                                     console.log('token: ' + token);
-                                    res.json({
+                                    return res.json({
                                         success: true,
                                         token: token
                                     })

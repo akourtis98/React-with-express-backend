@@ -4,18 +4,13 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 
 // load validation validateEduInput
-var validateProfileInput = require('../../validation/Profile');
-var validateExpInput = require('../../validation/Experience');
-var validateEduInput = require('../../validation/Education');
+var validateProfileInput = require('../../../validation/Profile');
+var validateExpInput = require('../../../validation/Experience');
+var validateEduInput = require('../../../validation/Education');
 
 // Models
-var Profile = require('../models/Profile');
-var User = require('../models/User');
-
-/* GET profile. */
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-});
+var Profile = require('../../models/Profile');
+var User = require('../../models/User');
 
 // @Route   GET profile
 // @desc    Get current users profile
@@ -66,7 +61,7 @@ router.get('/handle/:handle', (req, res) => {
         .then(profile => {
             if(!profile) {
                 errors.noprofile = 'There is no profile for this user.'
-                res.status(404).json(errors);
+                return res.status(404).json(errors);
             }
 
             res.json(profile);
@@ -85,7 +80,7 @@ router.get('/user/:user_id', (req, res) => {
         .then(profile => {
             if(!profile) {
                 errors.noprofile = 'There is no profile for this user.'
-                res.status(404).json(errors);
+                return res.status(404).json(errors);
             }
 
             res.json(profile);
@@ -167,7 +162,7 @@ passport.authenticate('jwt', { session: false }),
         (req, res) => {
             const { errors, isValid } = validateExpInput(req.body);
 
-            if(!isValid) res.status(400).json(errors);
+            if(!isValid) return res.status(400).json(errors);
 
             Profile.findOne({ user: req.user.user_id})
                 .then(profile => {
@@ -196,7 +191,7 @@ passport.authenticate('jwt', { session: false }),
         (req, res) => {
             const { errors, isValid } = validateEduInput(req.body);
 
-            if(!isValid) res.status(400).json(errors);
+            if(!isValid) return res.status(400).json(errors);
 
             Profile.findOne({ user: req.user.user_id})
                 .then(profile => {

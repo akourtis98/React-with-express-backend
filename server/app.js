@@ -10,15 +10,11 @@ var logger = require('morgan');
 
 
 // Routes
-var indexRouter = require('./routes/index');
-var getArticlesRouter = require('./routes/getArticles');
-var testRouter = require('./routes/testRouter');
-var createUser = require('./routes/createUser');
-var createArticle = require('./routes/createArticle');
-var loginRouter = require('./routes/loginUser');
-var getArticle = require('./routes/getArticle');
-var profile = require('./routes/profile');
+var articlesRouter = require('./routes/api/articles');
+var profileRouter = require('./routes/api/profile');
 var postsRouter = require('./routes/api/posts');
+var userRouter = require('./routes/api/user');
+
 var app = express();
 
 // view engine setup
@@ -54,15 +50,11 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // use routes
-app.use('/', indexRouter);
-app.use('/fetch/articles', getArticlesRouter);
-app.use('/current', testRouter);
-app.use('/create/', createUser);
-app.use('/article', getArticle);
-app.use('/create/', createArticle);
-app.use('/profile', profile);
-app.use('/login', loginRouter);
-app.use('/api/posts', postsRouter);
+app.use('/routes/api/articles/', articlesRouter);
+app.use('/routes/api/posts/', postsRouter);
+app.use('/routes/api/profile/', profileRouter);
+app.use('/routes/api/user/', userRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
