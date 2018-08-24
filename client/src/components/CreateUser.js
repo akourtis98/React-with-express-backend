@@ -1,71 +1,95 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
+import { registerUser } from '../actions/authActions';
+import PropTypes from 'prop-types';
 
 class CreateUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            name: '',
-            password: '',
-            password2: '',
-            avatar: '',
+            user: {
+                email: '',
+                name: '',
+                password: '',
+                password2: '',
+                avatar: '',
+            },
             message: '',
             errors: {}
         }
     }
 
     createUser = () => {
-        fetch('http://localhost:3001/routes/api/user/signup', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: this.state.name,
-            password: this.state.password,
-            password2: this.state.password2,
-            email: this.state.email,
-            })
-        })
-        .then((res) => res.json())
-        .then(data =>  {
-            this.setState({ 
-                errors: data,
-                message: data.msg
-            });
-        })
-        .catch(err=>console.log(err))
+        this.props.registerUser(this.state.user);
+        // fetch('http://localhost:3001/routes/api/user/signup', {
+        // method: 'POST',
+        // mode: 'cors',
+        // headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        // },
+        // body: JSON.stringify({
+        //     name: this.state.user.name,
+        //     password: this.state.user.password,
+        //     password2: this.state.user.password2,
+        //     email: this.state.user.email,
+        //     })
+        // })
+        // .then((res) => res.json())
+        // .then(data =>  {
+        //     this.setState({ 
+        //         errors: data,
+        //         message: data.msg
+        //     });
+        // })
+        // .catch(err=>console.log(err))
     }
 
     handleChangeName = e => {
-        this.setState({name: e.target.value});
-        console.log(this.state.name)
+        this.setState({
+            user: {
+                ...this.state.user,
+                name: e.target.value}
+        });
+        console.log(this.state.user.name)
     }
 
     handleChangePassword = e => {
-        this.setState({password: e.target.value});
-        console.log(this.state.password)
+        this.setState({
+            user: {
+                ...this.state.user,
+                password: e.target.value}
+        });
+        console.log(this.state.user.password)
     }
 
     handleChangePassword2 = e => {
-        this.setState({password2: e.target.value});
-        console.log(this.state.password2)
+        this.setState({
+            user: {
+                ...this.state.user,
+                password2: e.target.value}
+        });
+        console.log(this.state.user.password2)
     }
 
     handleChangeEmail = e => {
-        this.setState({email: e.target.value});
-        console.log(this.state.email)
+        this.setState({
+            user: {
+                ...this.state.user,
+                email: e.target.value}
+        });
+        console.log(this.state.user.email)
     }
 
 
     render() {
         const { errors } = this.state;
-        
+        const { user } = this.props.auth;
+
         return (      
             <div className="App">
+            {user ? user.name : null}
             <form>
             {/* // <!-- Register --> */}
             <div className="register">
@@ -133,9 +157,18 @@ class CreateUser extends Component {
                     </div>
                 </div>
             </form>
-            </div>
+        </div>
         );
     }
 }
 
-export default CreateUser;
+CreateUser.PropTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, { registerUser })( CreateUser);
