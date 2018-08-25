@@ -8,11 +8,11 @@ import { setCurrentUser, logoutCurrentUser } from './actions/authActions';
 import store from './store';
 import App from './components/App';
 
-import './resources/App.css';
+import './resources/style/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 // Check for token
-if(localStorage.jwttoken) {
+if (localStorage.jwttoken) {
     // Set auth token header auth
     setAuthToken(localStorage.jwttoken);
 
@@ -24,7 +24,7 @@ if(localStorage.jwttoken) {
 
     // Check for expired token
     const currentTime = Date.now() / 1000;
-    if(decoded.exp < currentTime) {
+    if (decoded.exp < currentTime) {
         // Logout user
         store.dispatch(logoutCurrentUser());
 
@@ -36,14 +36,14 @@ if(localStorage.jwttoken) {
 }
 
 ReactDOM.render((
-    <Provider store={ store }>
-        <BrowserRouter> 
+    <Provider store={store}>
+        <BrowserRouter>
             <div>
                 <App />
             </div>
         </BrowserRouter>
     </Provider>
 ),
-document.getElementById('root'));
+    document.getElementById('root'));
 
 
