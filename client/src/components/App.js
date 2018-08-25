@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from './nav/Header';
-import Footer from './nav/Footer';
-import Main from './Main';
+import Header from './Nav/Header';
+import Footer from './Nav/Footer';
+import Main from './Routes/Main';
 
 class App extends Component {
   render() {

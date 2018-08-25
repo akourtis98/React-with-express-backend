@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import CreateUser from './auth/Signup';
-import CreateArticle from './CreateArticle';
-import Login from './auth/Login';
-import Articles from './Articles';
-import Article from './Article';
-import LandingPage from './LandingPage';
+import CreateUser from '../Auth/Signup';
+import CreateArticle from '../CreateArticle';
+import Login from '../Auth/Login';
+import Articles from '../Articles';
+import Article from '../Article';
+import LandingPage from '../LandingPage';
 
 class Main extends Component {
     render() {
