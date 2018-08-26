@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import TextFieldGroup from '../common/TextFieldGroup';
 import axios from 'axios';
 
 class CreateUser extends Component {
@@ -23,13 +24,13 @@ class CreateUser extends Component {
     }
 
     componentDidMount() {
-        if(this.props.auth.isAuthenticated) {
+        if (this.props.auth.isAuthenticated) {
             this.props.history.push('/dashboard');
         }
     }
-    
+
     componentWillReceiveProps(nextProps) {
-        if(nextProps.errors) {
+        if (nextProps.errors) {
             this.setState({ errors: nextProps.errors });
         }
     }
@@ -43,7 +44,8 @@ class CreateUser extends Component {
         this.setState({
             user: {
                 ...this.state.user,
-                name: e.target.value}
+                name: e.target.value
+            }
         });
         console.log(this.state.user.name)
     }
@@ -52,7 +54,8 @@ class CreateUser extends Component {
         this.setState({
             user: {
                 ...this.state.user,
-                password: e.target.value}
+                password: e.target.value
+            }
         });
         console.log(this.state.user.password)
     }
@@ -61,7 +64,8 @@ class CreateUser extends Component {
         this.setState({
             user: {
                 ...this.state.user,
-                password2: e.target.value}
+                password2: e.target.value
+            }
         });
         console.log(this.state.user.password2)
     }
@@ -70,7 +74,8 @@ class CreateUser extends Component {
         this.setState({
             user: {
                 ...this.state.user,
-                email: e.target.value}
+                email: e.target.value
+            }
         });
         console.log(this.state.user.email)
     }
@@ -79,76 +84,65 @@ class CreateUser extends Component {
     render() {
         const { errors } = this.state;
 
-        return (      
+        return (
             <div className="App">
-            <form>
-            {/* // <!-- Register --> */}
-            <div className="register">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-8 m-auto">
-                            <h1 className="display-4 text-center">Sign Up</h1>
-                            <p className="lead text-center">Create your DevConnector account</p>
-                            <div className="form-group">
-                                        <input 
-                                        type="name" 
+                <form>
+                    {/* // <!-- Register --> */}
+                    <div className="register">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-8 m-auto">
+                                    <h1 className="display-4 text-center">Sign Up</h1>
+                                    <p className="lead text-center">Create your DevConnector account</p>
+                                    <TextFieldGroup
+                                        placeholder="Name"
                                         name="name"
-                                        className={classnames('form-control form-control-lg', {
-                                            'is-invalid': errors.name
-                                        })} 
-                                        onChange={this.handleChangeName} 
-                                        id="exampleInputName" 
-                                        aria-describedby="nameHelp" 
-                                        placeholder="Enter name"/>
-                                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.name}</small>
-                            </div>
-                            <div className="form-group">
-                                        <input 
-                                        type="email" 
+                                        type="text"
+                                        label="Enter name"
+                                        info="Enter name"
+                                        onChange={this.handleChangeName}
+                                        error={errors.name}
+                                    />
+
+                                    <TextFieldGroup
+                                        placeholder="Email Address"
                                         name="email"
-                                        className={classnames('form-control form-control-lg', {
-                                            'is-invalid': errors.email
-                                        })} 
-                                        onChange={this.handleChangeEmail} 
-                                        id="exampleInputEmail" 
-                                        aria-describedby="emailHelp" 
-                                        placeholder="Enter email address"/>
-                                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.email}</small>
+                                        type="email"
+                                        label="Name"
+                                        info="Email Address"
+                                        onChange={this.handleChangeEmail}
+                                        error={errors.email}
+                                    />
+
+
+                                    <TextFieldGroup
+                                        placeholder="Password"
+                                        name="password"
+                                        type="password"
+                                        label="Enter password"
+                                        info="Enter password"
+                                        onChange={this.handleChangePassword}
+                                        error={errors.password}
+                                    />
+
+                                    <TextFieldGroup
+                                        placeholder="Password"
+                                        name="password2"
+                                        type="password"
+                                        label="Enter password againasd"
+                                        info="Enter password again"
+                                        onChange={this.handleChangePassword2}
+                                        error={errors.password2}
+                                    />
+
+                                    <button type="button" onClick={this.createUser} className="btn btn-info btn-block mt-4">Sign up</button>
+                                    <small id="inputSuccessHelp" className="form-text text-muted">{this.state.message}</small>
                                 </div>
-                                <div className="form-group">
-                                    <input 
-                                            name="password"
-                                            type="password" 
-                                            onChange={this.handleChangePassword} 
-                                            className={classnames('form-control form-control-lg', {
-                                                'is-invalid': errors.password
-                                            })} 
-                                            id="exampleInputPassword1" 
-                                            placeholder="Enter password"
-                                            aria-describedby="passwordHelp"/>
-                                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.password}</small>
-                                </div>
-                                <div className="form-group">
-                                    <input 
-                                            name="password2"
-                                            type="password" 
-                                            onChange={this.handleChangePassword2} 
-                                            className={classnames('form-control form-control-lg', {
-                                                'is-invalid': errors.password2
-                                            })} 
-                                            id="exampleInputPassword2" 
-                                            placeholder="Confirm password"
-                                            aria-describedby="password2Help"/>
-                                    <small id="inputErrorHelp" className="form-text text-muted">{this.state.errors.password2}</small>
-                                </div>
-                                <button type="button" onClick={this.createUser} className="btn btn-info btn-block mt-4">Sign up</button>
-                                <small id="inputSuccessHelp" className="form-text text-muted">{ this.state.message }</small>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
         );
     }
 }
@@ -164,4 +158,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })( withRouter(CreateUser));
+export default connect(mapStateToProps, { registerUser })(withRouter(CreateUser));

@@ -6,44 +6,46 @@ import jwt_decode from 'jwt-decode';
 import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
 // Register user
-export const registerUser = ( userData, history) => dispatch => {
+export const registerUser = (userData, history) => dispatch => {
     axios
-            .post('http://localhost:3001/routes/api/user/signup', userData)
-            .then(res => history.push('/login'))
-            .catch(err => 
-                dispatch({
-                    type: GET_ERRORS,
-                    payload: err.response.data
-                })
-            );
-    };
-
-// Login - get users token
-export const loginUser = (userData) => dispatch => {
-    axios.post('http://localhost:3001/routes/api/user/login', userData)
-        .then(res => {
-            // Save to localStorage
-            const { token } = res.data;
-
-            // Set token to localStorage
-            localStorage.setItem('jwttoken', token)
-
-            //Set token to Auth header
-            setAuthToken(token);
-
-            // Decode token to get user data
-            const decoded = jwt_decode(token);
-
-            // Set current user
-            dispatch(setCurrentUser(decoded));
-        })
-        .catch(err => 
+        .post('http://localhost:3001/routes/api/user/signup', userData)
+        .then(res => history.push('/login'))
+        .catch(err =>
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
             })
         );
-}
+};
+
+
+// Login - Get User Token
+export const loginUser = userData => dispatch => {
+    axios
+        .post('http://localhost:3001/routes/api/user/login', userData)
+        .then(res => {
+            // Save to localStorage
+            let { token } = res.data;
+
+            token = "Bearer " + token;
+
+            // Set token to ls
+            localStorage.setItem('jwttoken', token);
+            // Set token to Auth header
+            setAuthToken(token);
+            // Decode token to get user data
+            const decoded = jwt_decode(token);
+            // Set current user
+            dispatch(setCurrentUser(decoded));
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+};
+
 
 // Set logged in user
 export const setCurrentUser = (decoded) => {

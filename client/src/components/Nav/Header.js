@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutCurrentUser } from '../../actions/authActions';
+import { clearCurrentProfile } from '../../actions/profileActions';
 
 class Header extends Component {
 
     onLogoutClick(e) {
         e.preventDefault();
+        this.props.clearCurrentProfile();
         this.props.logoutCurrentUser();
     }
 
@@ -36,10 +38,10 @@ class Header extends Component {
         const guestLinks = (
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <a><Link className="nav-link" to='/create/user'>Sign Up</Link></a>
+                    <a className="nav-link" href='/create/user'>Sign Up</a>
                 </li>
                 <li className="nav-item">
-                    <a><Link className="nav-link" to='/login'>Login</Link></a>
+                    <a className="nav-link" href='/login'>Login</a>
                 </li>
             </ul>
         )
@@ -79,4 +81,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logoutCurrentUser })(Header);
+export default connect(mapStateToProps, { logoutCurrentUser, clearCurrentProfile })(Header);

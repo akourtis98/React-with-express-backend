@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutCurrentUser } from './actions/authActions';
+import { clearCurrentProfile } from './actions/profileActions';
 import store from './store';
 import App from './components/App';
 
@@ -29,6 +30,7 @@ if (localStorage.jwttoken) {
         store.dispatch(logoutCurrentUser());
 
         // Clear current profile
+        store.dispatch(clearCurrentProfile());
 
         //  redirect to login
         window.location.href = '/login';
