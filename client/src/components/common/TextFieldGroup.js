@@ -9,7 +9,7 @@ const TextFieldGroup = ({
     type,
     error,
     info,
-    onChange,
+    onChange
 }) => {
     return (
         <div className="form-group">

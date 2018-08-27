@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import TextFieldGroup from './common/TextFieldGroup';
 import TextFieldAreaFieldGroup from './common/TextFieldAreaFieldGroup';
 import InputGroup from './common/InputGroup';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { createProfile } from '../actions/profileActions';
 import SelectListGroup from './common/SelectListGroup';
 import axios from 'axios';
@@ -37,6 +37,10 @@ class CreateProfile extends Component {
         if (nextProps.errors) {
             this.setState({ errors: nextProps.errors });
         }
+    }
+
+    goToDashboard = () => {
+        this.props.push('/dashboard');
     }
 
     onFormSubmit = e => {
@@ -133,6 +137,14 @@ class CreateProfile extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
+                            <Link className="lead text-muted" to="/dashboard">
+                                <button
+                                    type="button"
+                                    value="Go back"
+                                    className="btn btn-light"
+                                >Go to dashboard
+                                    </button>
+                            </Link>
                             <h1 className="displaay-4 text-center"> Create your profile</h1>
                             <p className="lead text-center">
                                 Lets get some information to make your profile stand out
@@ -240,10 +252,10 @@ class CreateProfile extends Component {
 }
 
 CreateProfile.propTypes = {
-    createProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
+
 const mapStateToProps = state => ({
     profile: state.profile,
     errors: state.errors

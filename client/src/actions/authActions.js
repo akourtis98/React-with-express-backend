@@ -27,7 +27,7 @@ export const loginUser = userData => dispatch => {
             // Save to localStorage
             let { token } = res.data;
 
-            token = "Bearer " + token;
+            token = token;
 
             // Set token to ls
             localStorage.setItem('jwttoken', token);
@@ -48,7 +48,7 @@ export const loginUser = userData => dispatch => {
 
 
 // Set logged in user
-export const setCurrentUser = (decoded) => {
+export const setCurrentUser = decoded => {
     return {
         type: SET_CURRENT_USER,
         payload: decoded
