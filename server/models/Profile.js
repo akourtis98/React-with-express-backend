@@ -13,7 +13,7 @@ const ProfileSchema = new Schema({
         max: 40
     },
     company: {
-        type:String
+        type: String
     },
     website: {
         type: String
@@ -23,11 +23,9 @@ const ProfileSchema = new Schema({
     },
     status: {
         type: String,
-        required: true
     },
     skills: {
         type: [String],
-        required: true
     },
     bio: {
         type: String
@@ -39,7 +37,7 @@ const ProfileSchema = new Schema({
         {
             title: {
                 type: String,
-                required: true,
+                required: true
             },
             company: {
                 type: String,
@@ -53,7 +51,7 @@ const ProfileSchema = new Schema({
                 required: true
             },
             to: {
-                type: Date,
+                type: Date
             },
             current: {
                 type: Boolean,
@@ -68,13 +66,13 @@ const ProfileSchema = new Schema({
         {
             school: {
                 type: String,
-                required: true,
+                required: true
             },
             degree: {
                 type: String,
                 required: true
             },
-            field: {
+            fieldofstudy: {
                 type: String,
                 required: true
             },
@@ -83,7 +81,7 @@ const ProfileSchema = new Schema({
                 required: true
             },
             to: {
-                type: Date,
+                type: Date
             },
             current: {
                 type: Boolean,
@@ -98,22 +96,25 @@ const ProfileSchema = new Schema({
         youtube: {
             type: String
         },
-        facebook: {
+        twitter: {
             type: String
         },
-        twitter: {
+        facebook: {
             type: String
         },
         linkedin: {
             type: String
         },
+        instagram: {
+            type: String
+        }
     },
     date: {
         type: Date,
         default: Date.now
     }
-})
+});
 
-const Profile = mongoose.model('profile', ProfileSchema);
+const Profile = mongoose.model('profiles', ProfileSchema);
 
 module.exports = Profile;

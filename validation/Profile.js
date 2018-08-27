@@ -7,8 +7,6 @@ module.exports = function validateProfileInput(data) {
     data.handle = !isEmpty(data.handle) ? data.handle : '';
     data.status = !isEmpty(data.status) ? data.status : '';
     data.skills = !isEmpty(data.skills) ? data.skills : '';
-    data.company = isEmpty(data.company) ? data.company : '';
-    data.website = !isEmpty(data.website) ? data.website : '';
 
     if (!Validator.isLength(data.handle, { min: 2, max: 40 })) {
         errors.handle = 'Handle needs to between 2 and 4 characters';
@@ -24,14 +22,6 @@ module.exports = function validateProfileInput(data) {
 
     if (Validator.isEmpty(data.skills)) {
         errors.skills = 'Skills field is required';
-    }
-
-    if (Validator.isEmpty(data.company)) {
-        errors.company = 'company field is required';
-    }
-
-    if (Validator.isEmpty(data.website)) {
-        errors.website = 'website field is required';
     }
 
     if (!isEmpty(data.website)) {
